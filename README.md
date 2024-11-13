@@ -4,6 +4,7 @@ A new Flutter project.
 
 ## Quick-Navigation
 - [Tugas 7](#tugas-7)
+- [Tugas 8](#tugas-8)
 
 ## Tugas 7
 ### 1. Jelaskan apa yang dimaksud dengan stateless widget dan stateful widget, dan jelaskan perbedaan dari keduanya.
@@ -230,3 +231,80 @@ class ItemCard extends StatelessWidget {
   }
 }
 ```
+
+## Tugas 8
+### 1. Apa kegunaan ``const`` di Flutter? Jelaskan apa keuntungan ketika menggunakan ``const`` pada kode Flutter. Kapan sebaiknya kita menggunakan ``const``, dan kapan sebaiknya tidak digunakan?
+``const`` digunakan ketika nilai sudah diketahui, tidak berubah, dan ditentukan saat kompilasi. Salah satu keuntungan Flutter adalah jika objek yang sama sudah ada, Flutter dapat menggunakan konsep caching untuk mengoptimalkan penggunaan memori. ``const`` sebaiknya digunakan untuk widget-widget yang tidak berubah, dan sebaiknya tidak menggunakan ``const`` jika widget memiliki kemungkinan untuk berubah.
+### 2. Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+Column berfungsi untuk menyusun item secara sekuensial dari atas ke bawah, sedangkan Row menyusun dari kiri ke kanan.
+
+Contoh Implementasi Column:
+```dart
+import 'package:flutter/material.dart';
+
+class Column extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Column')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Item 1', style: TextStyle(fontSize: 24)),
+          Text('Item 2', style: TextStyle(fontSize: 24)),
+        ],
+      ),
+    );
+  }
+}
+```
+
+Contoh Implementasi Row:
+```dart
+import 'package:flutter/material.dart';
+
+class Row extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Row')),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(Icons.home, size: 50),
+          Icon(Icons.settings, size: 50),
+        ],
+      ),
+    );
+  }
+}
+```
+
+### 3. Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!
+Jenis input yang sudah digunakan:
+- TextFormField untuk nama produk, harga, deskripsi, URL, rating, dan kuantitas
+
+Jenis input yang belum digunakan:
+- Checkbox
+- Radio
+- Switch
+- Slider
+- Dropdown
+- Date & Time Picker
+
+### 4. Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+Caranya adalah dengan mendefinisikan tema global pada berkas ``lib/main.dart`` agar tema konsisten diseluruh aplikasi. 
+
+Saya ada mengaplikasikan tema pada aplikasi dengan cara sebagai berikut:
+```dart
+theme: ThemeData(
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.deepPurple,
+  ).copyWith(secondary: Colors.deepPurple[400]),
+  useMaterial3: true,
+),
+```
+### 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+Saya mengimplementasikan Stack untuk menangani navigasi halaman dalam aplikasi. Dengan menggunakan Stack, kita dapat dengan mudah melakukan navigasi ke halaman berikutnya dengan metode **push** dan kembali ke halaman sebelumnya dengan metode **pop**. Konsep ini mengikuti prinsip Last In, First Out, di mana halaman terakhir yang dimasukkan ke dalam Stack adalah halaman pertama yang akan dikeluarkan saat pengguna ingin kembali. 
