@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:not_steam/screens/menu.dart';
 import 'package:not_steam/screens/productentry_form.dart'; 
-
+import 'package:not_steam/screens/list_productentry.dart';
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -61,6 +61,18 @@ class LeftDrawer extends StatelessWidget {
                 ),
               );
             },
+          ),
+
+          ListTile(
+              leading: const Icon(Icons.add_reaction_rounded),
+              title: const Text('Daftar Mood'),
+              onTap: () {
+                  // Route menu ke halaman mood
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                  );
+              },
           ),
         ],
       ),

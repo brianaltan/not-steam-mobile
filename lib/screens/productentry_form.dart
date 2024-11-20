@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:not_steam/widgets/left_drawer.dart';
+import 'package:provider/provider.dart'; // Import provider
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'dart:convert';
+import 'package:not_steam/screens/menu.dart';
+
 
 class ProductEntryFormPage extends StatefulWidget {
   const ProductEntryFormPage({super.key});
@@ -19,6 +24,8 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>(); // Add this line
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -149,38 +156,37 @@ class _ProductEntryFormPageState extends State<ProductEntryFormPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Theme.of(context).colorScheme.primary),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Product successfully saved'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Name: $_name'),
-                                    Text('Price: $_price'),
-                                    Text('Description: $_description'),
-                                    Text('Video Trailer: $_videoTrailer'),
-                                    Text('Rating: $_rating'),
-                                    Text('Quantity: $_quantity'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        // Send data to Django and wait for response
+                        final response = await request.postJson(
+                          "http://127.0.0.1:8000/create-flutter/",
+                          jsonEncode(<String, String>{
+                            'name': _name,
+                            'price': _price.toString(),
+                            'description': _description,
+                            'video_trailer': _videoTrailer,
+                            'rating': _rating.toString(),
+                            'quantity': _quantity.toString(),
+                          }),
                         );
+                        if (context.mounted) {
+                          if (response['status'] == 'success') {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Product successfully saved!"),
+                            ));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyHomePage()),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("An error occurred, please try again."),
+                            ));
+                          }
+                        }
                       }
                     },
                     child: const Text(

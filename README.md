@@ -5,6 +5,7 @@ A new Flutter project.
 ## Quick-Navigation
 - [Tugas 7](#tugas-7)
 - [Tugas 8](#tugas-8)
+- [Tugas 9](#tugas-9)
 
 ## Tugas 7
 ### 1. Jelaskan apa yang dimaksud dengan stateless widget dan stateful widget, dan jelaskan perbedaan dari keduanya.
@@ -308,3 +309,37 @@ theme: ThemeData(
 ```
 ### 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
 Saya mengimplementasikan Stack untuk menangani navigasi halaman dalam aplikasi. Dengan menggunakan Stack, kita dapat dengan mudah melakukan navigasi ke halaman berikutnya dengan metode **push** dan kembali ke halaman sebelumnya dengan metode **pop**. Konsep ini mengikuti prinsip Last In, First Out, di mana halaman terakhir yang dimasukkan ke dalam Stack adalah halaman pertama yang akan dikeluarkan saat pengguna ingin kembali. 
+
+
+## Tugas 9
+### 1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+Alasannya adalah karena data yang kita ambil dari Django dikembalikan dalam bentuk JSON. Dengan langsung mengambil data dari respons JSON, kita dapat mengubahnya menjadi objek. Hal ini memungkinkan kita untuk bekerja dengan data secara terstruktur dan berorientasi objek, sehingga lebih mudah untuk memanipulasi dan menampilkannya dalam aplikasi kita.
+
+### 2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+
+Library ini merupakan library untuk melakukan komunikasi antara Django dan Flutter, ini digunakan untuk pengiriman dan ketika kita menerima data.
+
+### 3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+Fungsi dari cookie request adalah untuk mengelola permintaan HTTP terkait otentikasi dan sesi pengguna. Instance cookie request digunakan untuk memastikan bahwa pengembang dapat dengan mudah mengakses status dan menjaga konsistensi di setiap sesi.
+
+### 4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+Flutter menerima input terlebih dahulu dari `productentryform.dart`, kemudian data tersebut akan dikirim melalui API endpoint Django untuk membuat objek produk di database. Setelah itu, `list_productentry.dart` akan memanggil API Django untuk menampilkan semua objek milik pengguna dalam bentuk JSON. Dari data JSON tersebut, objek-objek akan ditampilkan satu per satu kepada pengguna.
+
+### 5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+- **Register**: Pengguna akan memasukkan username dan password, kemudian mengirimkan data tersebut melalui API endpoint register di Django untuk membuat akun.
+
+- **Login**: Pengguna akan memasukkan username dan password, kemudian mengirimkan data tersebut melalui API endpoint login di Django untuk memvalidasi dan membuat sesi.
+
+- **Logout**: Pengguna akan mengirimkan permintaan melalui API endpoint logout di Django untuk menghapus sesi dari database dan lokal.
+
+### Implementasi
+Berikut adalah penjelasan yang lebih terstruktur:
+1. **Menambahkan Authentication**: Langkah pertama adalah menambahkan aplikasi authentication di proyek Django. Menerima permintaan dan mengembalikan informasi terkait login, registrasi, dan logout di sisi backend.
+
+2. **Menambahkan Fitur Login, Register, dan Logout di Flutter**: Tambahkan fitur login, registrasi, dan logout di aplikasi Flutter. Fitur ini akan memanggil API endpoint yang ada di proyek Django backend.
+
+3. **Membuat Model Produk di Flutter**: Buat model produk di Flutter yang sesuai dengan model yang ada di proyek Django. Ini memastikan bahwa data produk dapat dikelola dengan konsisten antara frontend dan backend.
